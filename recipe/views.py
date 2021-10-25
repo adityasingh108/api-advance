@@ -1,8 +1,9 @@
-from rest_framework import viewsets,mixins,status
+from rest_framework import filters, viewsets,mixins,status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from django_filters.rest_framework import DjangoFilterBackend
 
 from core.models import Ingredient, Recipe, Tag
 from recipe import serializers
@@ -53,6 +54,8 @@ class RecipeViewset(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['tags','ingredients']
     
     
     def get_queryset(self):
